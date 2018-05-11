@@ -3,3 +3,33 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+/* --- */
+
+.question-bank {
+  display: block;
+}
+
+/* --- */
+
+.question {
+  display: none;
+}
+
+.question--active {
+  display: block;
+}
+
+/* --- */
+
+.answer {
+  display: block;
+}
+
+.answer--correct {
+  color: green;
+}
+
+.answer--incorrect {
+  color: red;
+}
