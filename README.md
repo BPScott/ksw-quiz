@@ -32,4 +32,9 @@ npm start
 Deployment
 ----------
 
-TODO
+To create a build, and then push it the contents of the /build folder to the
+`gh-pages` branch:
+
+```sh
+npm run deploy
+```
