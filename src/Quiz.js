@@ -2,8 +2,21 @@ import Question from './Question';
 import QuestionBankPicker from './QuestionBankPicker';
 import React from 'react';
 import PropTypes from 'prop-types';
+import sampleSize from 'lodash/sampleSize';  
+import random from 'lodash/random';  
 
 export default class Quiz extends React.Component {
+  static propTypes = {
+    questionBanks: PropTypes.objectOf(PropTypes.array).isRequired,
+    questionsPerQuiz: PropTypes.number.isRequired,
+    answersPerQuestion: PropTypes.number.isRequired,
+  }
+
+  static defaultProps = {
+    questionsPerQuiz: 10,
+    answersPerQuestion: 4,
+  }
+
   constructor(props) {
     super(props);
 
@@ -15,17 +28,18 @@ export default class Quiz extends React.Component {
       score: 0,
     };
 
-    // Bind events so we can access this inside the event handlers
+    // Bind events so we can access this inside them
     this.setQuestionBanks = this.setQuestionBanks.bind(this);
     this.handleNextQuestion = this.handleNextQuestion.bind(this);
     this.handleResetSameQuestions = this.handleResetSameQuestions.bind(this);
     this.handleResetChangeBanks = this.handleResetChangeBanks.bind(this);
+    this._buildAnswerArray = this._buildAnswerArray.bind(this);
   }
 
   setQuestionBanks(banks) {
     this.setState(prevState => ({
       selectedQuestionBanks: banks,
-      selectedQuestions: this.filterQuestions(this.formatQuestions(banks)),
+      selectedQuestions: this.sampleQuestions(this.formatQuestions(banks)),
     }));
   }
 
@@ -80,10 +94,6 @@ export default class Quiz extends React.Component {
     </div>
   }
 
-  endSlate() {
-    
-  }
-
   /** 
     Initial question banks look like:
     {
@@ -117,7 +127,7 @@ export default class Quiz extends React.Component {
         formattedQuestions.push({
           'query': queryTuple.q,
           'answer': queryTuple.a,
-          'possibleAnswers': validAnswersForBank
+          'possibleAnswers': this._buildAnswerArray(queryTuple.a, validAnswersForBank),
         });
       }
     }
@@ -125,7 +135,20 @@ export default class Quiz extends React.Component {
     return formattedQuestions;
   }
 
-  filterQuestions(questions) {
-    return questions;
+  sampleQuestions(questions) {
+    return sampleSize(questions, this.props.questionsPerQuiz);
+  }
+
+  _buildAnswerArray(correctAnswer, validAnswers) {
+    // Grab 3 random wrong answers for this question
+    let possibleAnswers = sampleSize(
+      validAnswers.filter(a => a !== correctAnswer),
+      this.props.answersPerQuestion - 1
+    );
+   
+    // Insert the right answer at a random point in the array
+    possibleAnswers.splice(random(0, possibleAnswers.length-1), 0, correctAnswer);
+
+    return possibleAnswers;
   }
 }
