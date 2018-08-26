@@ -5,5 +5,8 @@ import Quiz from './Quiz';
 import QuestionBanks from './QuestionBanks';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<Quiz questionBanks={QuestionBanks} />, document.getElementById('root'));
+ReactDOM.render(
+  <Quiz questionBanks={QuestionBanks} />,
+  document.getElementById('root')
+);
 registerServiceWorker();

@@ -5,17 +5,18 @@ export default class Answer extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    status: PropTypes.oneOf(['unguessed', 'guessedCorrect', 'guessedIncorrect']).isRequired,
+    status: PropTypes.oneOf(['unguessed', 'guessedCorrect', 'guessedIncorrect'])
+      .isRequired,
     onAnswerSelected: PropTypes.func.isRequired,
-  }
+  };
 
   static defaultProps = {
     status: 'unguessed',
-  }
+  };
 
   constructor(props) {
     super(props);
-    
+
     // Bind events so we can access this inside the event handlers
     this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
   }
@@ -26,14 +27,21 @@ export default class Answer extends React.Component {
 
   render() {
     const statusClass = {
-      'unguessed': '',
-      'guessedCorrect': ' answer--correct',
-      'guessedIncorrect': ' answer--incorrect',
+      unguessed: '',
+      guessedCorrect: ' answer--correct',
+      guessedIncorrect: ' answer--incorrect',
     }[this.props.status];
 
-    return <label className={'answer' + statusClass}>
-      <input type="radio" name={this.props.name} value={this.props.value} onClick={this.handleAnswerSelected}/>
-      {this.props.value}
-    </label>
+    return (
+      <label className={'answer' + statusClass}>
+        <input
+          type="radio"
+          name={this.props.name}
+          value={this.props.value}
+          onClick={this.handleAnswerSelected}
+        />
+        {this.props.value}
+      </label>
+    );
   }
 }
