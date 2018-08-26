@@ -83,7 +83,7 @@ export default class Quiz extends React.Component {
     if (currentQuestionIndex >= selectedQuestions.length) {
       return (
         <div className="quiz">
-          YO REACHED THE END
+          YOU REACHED THE END
           <button onClick={this.handleResetSameQuestions}>
             Reset Same Questions
           </button>
@@ -95,11 +95,13 @@ export default class Quiz extends React.Component {
     }
 
     const questions = selectedQuestions.map((q, i) => {
+      const offset = (i + 1).toString() + ' / ' + selectedQuestions.length;
       return (
         <Question
           key={i}
           name={'question' + (i + 1)}
           isActive={i === currentQuestionIndex}
+          offset={offset}
           {...q}
         />
       );
@@ -107,16 +109,15 @@ export default class Quiz extends React.Component {
 
     return (
       <div className="quiz">
-        <strong>
-          YOU ARE ON QUESTION {currentQuestionIndex + 1}/{questions.length}
-        </strong>
         {questions}
-        <button onClick={this.handleNextQuestion}>Next Question</button>
+        <button className="next-button" onClick={this.handleNextQuestion}>
+          Next Question
+        </button>
       </div>
     );
   }
 
-  /** 
+  /**
     Initial question banks look like:
     {
       'First Bank Name': [

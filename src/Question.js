@@ -9,6 +9,7 @@ export default class Question extends React.Component {
     answer: PropTypes.string.isRequired,
     possibleAnswers: PropTypes.array,
     isActive: PropTypes.bool.isRequired,
+    offset: PropTypes.string,
   };
 
   static defaultProps = {
@@ -59,7 +60,10 @@ export default class Question extends React.Component {
 
     return (
       <div className={className}>
-        <h2>{this.props.query}</h2>
+        <h2 className="question__query">
+          <span>{this.props.query}</span>{' '}
+          <span className="question__query-count">{this.props.offset}</span>
+        </h2>
         {answers}
       </div>
     );

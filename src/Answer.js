@@ -40,7 +40,7 @@ export default class Answer extends React.Component {
           value={this.props.value}
           onClick={this.handleAnswerSelected}
         />
-        {this.props.value}
+        <span className="answer__text">{this.props.value}</span>
       </label>
     );
   }
