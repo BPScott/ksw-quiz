@@ -1,8 +1,9 @@
-import Answer from './Answer';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Question extends React.Component {
+import Answer from './Answer';
+
+export default class Question extends React.PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     query: PropTypes.string.isRequired,

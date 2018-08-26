@@ -1,11 +1,13 @@
-import Question from './Question';
-import QuestionBankPicker from './QuestionBankPicker';
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import sampleSize from 'lodash/sampleSize';
 import random from 'lodash/random';
 
-export default class Quiz extends React.Component {
+import Question from './Question';
+import QuestionBankPicker from './QuestionBankPicker';
+
+export default class Quiz extends React.PureComponent {
   static propTypes = {
     questionBanks: PropTypes.objectOf(PropTypes.array).isRequired,
     questionsPerQuiz: PropTypes.number.isRequired,
