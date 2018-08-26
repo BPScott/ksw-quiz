@@ -7,9 +7,9 @@
     "lodash": "^4.17.10",
     "preact": "^8.3.1",
     "preact-compat": "^3.18.3",
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.6.2",
     "react-app-rewired": "^1.5.2",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.5"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "babel-plugin-transform-react-remove-prop-types": "^0.4.15",
-    "gh-pages": "^1.1.0",
+    "gh-pages": "^1.2.0",
     "prettier": "^1.14.2"
   }
 }
