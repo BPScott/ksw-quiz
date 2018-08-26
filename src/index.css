@@ -22,10 +22,26 @@ h6 {
   margin: 0;
 }
 
+.fat-button {
+  font-size: 1.5rem;
+  padding: 8px;
+  margin: 8px -8px;
+}
 /* --- */
 
 .question-bank {
+  display: flex;
+  flex-direction: column;
+}
+
+.question-bank__item {
   display: block;
+  font-size: 1.25rem;
+  padding: 2px 0;
+}
+
+.question-bank__item input {
+  margin-right: 0.5rem;
 }
 
 /* --- */

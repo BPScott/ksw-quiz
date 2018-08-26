@@ -48,7 +48,7 @@ export default class QuestionBankPicker extends React.Component {
   render() {
     const banks = Object.keys(this.props.questionBanks).map((bankName, i) => {
       return (
-        <label key={i} className="question-bank">
+        <label key={i} className="question-bank__item">
           <input
             type="checkbox"
             name={bankName}
@@ -61,9 +61,11 @@ export default class QuestionBankPicker extends React.Component {
     });
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="question-bank">
         {banks}
-        <input type="submit" value="Submit" />
+        <button type="submit" className="fat-button">
+          Submit
+        </button>
       </form>
     );
   }
