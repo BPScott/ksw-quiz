@@ -1,5 +1,5 @@
 export default {
-  'Maek Chi Gi - English Pressure Points': [
+  'Maek Chi Gi: English Pressure Points': [
     {q: 'English pressure point for Maek Chi Gi 1?', a: 'Broken Sequence'},
     {
       q: 'English pressure point for Maek Chi Gi 2?',
@@ -25,7 +25,7 @@ export default {
       a: 'Breasts Root/Heavens Pool',
     },
   ],
-  'Maek Chi Gi - Korean Pressure Points': [
+  'Maek Chi Gi: Korean Pressure Points': [
     {q: 'Korean pressure point for Maek Chi Gi 1?', a: 'Yuhl Guhl'},
     {q: 'Korean pressure point for Maek Chi Gi 2?', a: 'Soo Sahm Ri'},
     {q: 'Korean pressure point for Maek Chi Gi 3?', a: 'Chung Boo'},
@@ -42,7 +42,7 @@ export default {
     {q: 'Korean pressure point for Maek Chi Gi 14?', a: 'Shin Juhng'},
     {q: 'Korean pressure point for Maek Chi Gi 15?', a: 'Yoo Geun/Choong Ji'},
   ],
-  'Maek Chi Gi - Meridians': [
+  'Maek Chi Gi: Meridians': [
     {q: 'Meridian point for Maek Chi Gi 1?', a: 'Lung 7'},
     {q: 'Meridian point for Maek Chi Gi 2?', a: 'Large Intestine 10'},
     {q: 'Meridian point for Maek Chi Gi 3?', a: 'Lung 3'},
@@ -59,7 +59,7 @@ export default {
     {q: 'Meridian point for Maek Chi Gi 14?', a: 'Governing 24'},
     {q: 'Meridian point for Maek Chi Gi 15?', a: 'Stomach 18/Pericardium 1'},
   ],
-  'Maek Cha Gi - English Pressure Points': [
+  'Maek Cha Gi: English Pressure Points': [
     {q: 'English pressure point for Maek Cha Gi 1?', a: 'Three Um Junction'},
     {q: 'English pressure point for Maek Cha Gi 2?', a: 'Eyes of the Knee'},
     {q: 'English pressure point for Maek Cha Gi 3?', a: 'Bend Middle'},
@@ -79,7 +79,7 @@ export default {
     {q: 'English pressure point for Maek Cha Gi 14?', a: 'Big Vertebrae'},
     {q: 'English pressure point for Maek Cha Gi 15?', a: 'Sunny Hill Spring'},
   ],
-  'Maek Cha Gi - Korean Pressure Points': [
+  'Maek Cha Gi: Korean Pressure Points': [
     {q: 'Korean pressure point for Maek Cha Gi 1?', a: 'Sahm Um Kyo'},
     {q: 'Korean pressure point for Maek Cha Gi 2?', a: 'Dohk Bi'},
     {q: 'Korean pressure point for Maek Cha Gi 3?', a: 'Wee Joong'},
@@ -96,7 +96,7 @@ export default {
     {q: 'Korean pressure point for Maek Cha Gi 14?', a: 'Dae Choo'},
     {q: 'Korean pressure point for Maek Cha Gi 15?', a: 'Yahng Neung Chuhn'},
   ],
-  'Maek Cha Gi - Meridians': [
+  'Maek Cha Gi: Meridians': [
     {q: 'Meridian point for Maek Cha Gi 1?', a: 'Spleen 6'},
     {q: 'Meridian point for Maek Cha Gi 2?', a: 'Stomach 35'},
     {q: 'Meridian point for Maek Cha Gi 3?', a: 'Bladder 54'},
@@ -113,7 +113,7 @@ export default {
     {q: 'Meridian point for Maek Cha Gi 14?', a: 'Governing 14'},
     {q: 'Meridian point for Maek Cha Gi 15?', a: 'Gall Bladder 34'},
   ],
-  'Jee Ahp Sool - English Pressure Points': [
+  'Jee Ahp Sool: English Pressure Points': [
     {
       q: 'English pressure point for Jee Ahp Sool - left hand point?',
       a: 'Union Valley',
@@ -132,7 +132,7 @@ export default {
     {q: 'English pressure point for Jee Ahp Sool 9?', a: 'Surging Ki'},
     {q: 'English pressure point for Jee Ahp Sool 10?', a: 'Bend Middle'},
   ],
-  'Jee Ahp Sool - Korean Pressure Points': [
+  'Jee Ahp Sool: Korean Pressure Points': [
     {
       q: 'Korean pressure point for Jee Ahp Sool - left hand point?',
       a: 'Hahp Gohk',
@@ -148,7 +148,7 @@ export default {
     {q: 'Korean pressure point for Jee Ahp Sool 9?', a: 'Ki Choong'},
     {q: 'Korean pressure point for Jee Ahp Sool 10?', a: 'Wee Joong'},
   ],
-  'Jee Ahp Sool - Meridians': [
+  'Jee Ahp Sool: Meridians': [
     {
       q: 'Meridian point for Jee Ahp Sool - left hand point?',
       a: 'Large Intestine 4',

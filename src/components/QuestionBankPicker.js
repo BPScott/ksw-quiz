@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Header from './Header';
+
 export default class QuestionBankPicker extends React.PureComponent {
   static propTypes = {
     questionBanks: PropTypes.objectOf(PropTypes.array).isRequired,
@@ -62,6 +64,7 @@ export default class QuestionBankPicker extends React.PureComponent {
 
     return (
       <form onSubmit={this.handleSubmit} className="question-bank">
+        <Header title="Choose your question sets:" />
         {banks}
         <button type="submit" className="fat-button">
           Submit

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import sampleSize from 'lodash/sampleSize';
 import random from 'lodash/random';
 
+import Header from './Header';
 import Question from './Question';
 import QuestionBankPicker from './QuestionBankPicker';
 
@@ -74,10 +75,12 @@ export default class Quiz extends React.PureComponent {
     // If there are no selected questions then show the bank picker
     if (!Object.keys(this.state.selectedQuestionBanks).length) {
       return (
-        <QuestionBankPicker
-          questionBanks={this.props.questionBanks}
-          onSubmit={this.setQuestionBanks}
-        />
+        <div className="quiz">
+          <QuestionBankPicker
+            questionBanks={this.props.questionBanks}
+            onSubmit={this.setQuestionBanks}
+          />
+        </div>
       );
     }
 
@@ -85,33 +88,33 @@ export default class Quiz extends React.PureComponent {
     if (currentQuestionIndex >= selectedQuestions.length) {
       return (
         <div className="quiz">
-          YOU REACHED THE END
-          <button onClick={this.handleResetSameQuestions}>
-            Reset Same Questions
+          <Header title="The end" />
+
+          {/* <div>
+            You scored {this.state.score} / {this.props.questionsPerQuiz}
+          </div> */}
+
+          <button class="fat-button" onClick={this.handleResetSameQuestions}>
+            Ask the same questions again
           </button>
-          <button onClick={this.handleResetChangeBanks}>
-            Pick a new Set of questions
+          <button class="fat-button" onClick={this.handleResetChangeBanks}>
+            Pick a new set of questions
           </button>
         </div>
       );
     }
 
-    const questions = selectedQuestions.map((q, i) => {
-      const offset = (i + 1).toString() + ' / ' + selectedQuestions.length;
-      return (
-        <Question
-          key={i}
-          name={'question' + (i + 1)}
-          isActive={i === currentQuestionIndex}
-          offset={offset}
-          {...q}
-        />
-      );
-    });
-
     return (
       <div className="quiz">
-        {questions}
+        {selectedQuestions.map((q, i) => (
+          <Question
+            key={i}
+            name={'question' + (i + 1)}
+            isActive={i === currentQuestionIndex}
+            offset={(i + 1).toString() + ' / ' + selectedQuestions.length}
+            {...q}
+          />
+        ))}
         <button className="next-button" onClick={this.handleNextQuestion}>
           Next Question
         </button>

@@ -38,10 +38,13 @@ h6 {
   display: block;
   font-size: 1.25rem;
   padding: 2px 0;
+  margin-bottom: 12px;
 }
 
 .question-bank__item input {
-  margin-right: 0.5rem;
+  margin-right: 1rem;
+  transform: scale(1.5) translateY(-1px);
+  vertical-align: middle;
 }
 
 /* --- */
@@ -63,18 +66,18 @@ h6 {
   display: block;
 }
 
-.question__query {
+.header {
   color: #eec200;
   background-color: #212b36;
   padding: 12px 16px;
-  margin: 0 -16px;
+  margin: 0 -16px 8px;
 
   display: grid;
   grid-gap: 64px;
   grid-template-columns: auto auto;
 }
 
-.question__query-count {
+.header__meta {
   text-align: right;
 }
 

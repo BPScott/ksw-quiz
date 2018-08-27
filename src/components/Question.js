@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Answer from './Answer';
+import Header from './Header';
 
 export default class Question extends React.PureComponent {
   static propTypes = {
@@ -61,10 +62,7 @@ export default class Question extends React.PureComponent {
 
     return (
       <div className={className}>
-        <h2 className="question__query">
-          <span>{this.props.query}</span>{' '}
-          <span className="question__query-count">{this.props.offset}</span>
-        </h2>
+        <Header title={this.props.query} meta={this.props.offset} />
         {answers}
       </div>
     );
