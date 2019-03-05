@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export default class Header extends React.PureComponent {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    meta: PropTypes.string,
-  };
+interface Props {
+  title: string;
+  meta?: string;
+}
 
+export default class Header extends React.Component<Props> {
   render() {
     return (
       <h2 className="header">

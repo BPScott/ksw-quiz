@@ -1,14 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import {IQuestion, IQuestionBanks} from '../types';
 
 import Header from './Header';
 
-export default class QuestionBankPicker extends React.PureComponent {
-  static propTypes = {
-    questionBanks: PropTypes.objectOf(PropTypes.array).isRequired,
-  };
+interface Props {
+  questionBanks: IQuestionBanks;
+  onSubmit: (banks: IQuestionBanks) => void;
+}
 
-  constructor(props) {
+interface State {
+  [key: string]: boolean;
+}
+
+export default class QuestionBankPicker extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     // Initial state - Everything checked by default
@@ -17,7 +23,7 @@ export default class QuestionBankPicker extends React.PureComponent {
         memo[bankName] = true;
         return memo;
       },
-      {}
+      {} as {[key: string]: boolean}
     );
 
     // Bind events so we can access this inside the event handlers
@@ -25,13 +31,11 @@ export default class QuestionBankPicker extends React.PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleInputChange(e) {
-    const value =
-      e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    this.setState({[e.target.name]: value});
+  handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({[e.target.name]: e.target.checked});
   }
 
-  handleSubmit(e) {
+  handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const filteredBanks = Object.keys(this.props.questionBanks).reduce(
@@ -41,7 +45,7 @@ export default class QuestionBankPicker extends React.PureComponent {
         }
         return memo;
       },
-      {}
+      {} as {[key: string]: IQuestion[]}
     );
 
     this.props.onSubmit(filteredBanks);

@@ -1,36 +1,41 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import {IAnswerStatus} from '../types';
 
 import Answer from './Answer';
 import Header from './Header';
 
-export default class Question extends React.PureComponent {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    query: PropTypes.string.isRequired,
-    answer: PropTypes.string.isRequired,
-    possibleAnswers: PropTypes.array,
-    isActive: PropTypes.bool.isRequired,
-    offset: PropTypes.string,
-  };
+interface Props {
+  name: string;
+  query: string;
+  answer: string;
+  possibleAnswers: string[];
+  isActive: boolean;
+  offset?: string;
+}
 
+interface State {
+  guessedAnswer?: string;
+}
+
+export default class Question extends React.Component<Props, State> {
   static defaultProps = {
     isActive: false,
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     // Initial state
     this.state = {
-      guessedAnswer: null,
+      guessedAnswer: undefined,
     };
 
     // Bind events so we can access this inside the event handlers
     this.selectAnswer = this.selectAnswer.bind(this);
   }
 
-  selectAnswer(answer) {
+  selectAnswer(answer: string) {
     this.setState((prevState) => ({
       guessedAnswer: answer,
     }));
@@ -38,7 +43,7 @@ export default class Question extends React.PureComponent {
 
   render() {
     const answers = this.props.possibleAnswers.map((answer, i) => {
-      let answerStatus = 'unguessed';
+      let answerStatus: IAnswerStatus = 'unguessed';
       if (answer === this.state.guessedAnswer) {
         answerStatus =
           this.state.guessedAnswer === this.props.answer

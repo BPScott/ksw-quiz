@@ -1,26 +1,34 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import sampleSize from 'lodash/sampleSize';
 import random from 'lodash/random';
+
+import {IQuestionBanks, IFormatedQuestion, IQuestionBank} from '../types';
 
 import Header from './Header';
 import Question from './Question';
 import QuestionBankPicker from './QuestionBankPicker';
 
-export default class Quiz extends React.PureComponent {
-  static propTypes = {
-    questionBanks: PropTypes.objectOf(PropTypes.array).isRequired,
-    questionsPerQuiz: PropTypes.number.isRequired,
-    answersPerQuestion: PropTypes.number.isRequired,
-  };
+interface Props {
+  questionBanks: IQuestionBanks;
+  questionsPerQuiz?: number;
+  answersPerQuestion?: number;
+}
 
+interface State {
+  selectedQuestionBanks: IQuestionBank[];
+  selectedQuestions: IFormatedQuestion[];
+  currentQuestionIndex: number;
+  score: number;
+}
+
+export default class Quiz extends React.Component<Props, State> {
   static defaultProps = {
     questionsPerQuiz: 10,
     answersPerQuestion: 4,
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     // Initial state
@@ -39,7 +47,7 @@ export default class Quiz extends React.PureComponent {
     this._buildAnswerArray = this._buildAnswerArray.bind(this);
   }
 
-  setQuestionBanks(banks) {
+  setQuestionBanks(banks: any) {
     this.setState((prevState) => ({
       selectedQuestionBanks: banks,
       selectedQuestions: this.sampleQuestions(this.formatQuestions(banks)),
@@ -94,10 +102,13 @@ export default class Quiz extends React.PureComponent {
             You scored {this.state.score} / {this.props.questionsPerQuiz}
           </div> */}
 
-          <button class="fat-button" onClick={this.handleResetSameQuestions}>
+          <button
+            className="fat-button"
+            onClick={this.handleResetSameQuestions}
+          >
             Ask the same questions again
           </button>
-          <button class="fat-button" onClick={this.handleResetChangeBanks}>
+          <button className="fat-button" onClick={this.handleResetChangeBanks}>
             Pick a new set of questions
           </button>
         </div>
@@ -142,8 +153,8 @@ export default class Quiz extends React.PureComponent {
       {query: 'FirstQuestion', answer: 'FirstAnswer', possibleAnswers: ['FirstAnswer', 'SecondAnswer']}
     ]
   */
-  formatQuestions(questionBanks) {
-    let formattedQuestions = [];
+  formatQuestions(questionBanks: IQuestionBanks) {
+    let formattedQuestions: IFormatedQuestion[] = [];
 
     // Reworks how a
     for (let bank in questionBanks) {
@@ -168,15 +179,15 @@ export default class Quiz extends React.PureComponent {
     return formattedQuestions;
   }
 
-  sampleQuestions(questions) {
+  sampleQuestions(questions: IFormatedQuestion[]) {
     return sampleSize(questions, this.props.questionsPerQuiz);
   }
 
-  _buildAnswerArray(correctAnswer, validAnswers) {
+  _buildAnswerArray(correctAnswer: string, validAnswers: string[]) {
     // Grab 3 random wrong answers for this question
     let possibleAnswers = sampleSize(
       validAnswers.filter((a) => a !== correctAnswer),
-      this.props.answersPerQuestion - 1
+      this.props.answersPerQuestion! - 1
     );
 
     // Insert the right answer at a random point in the array

@@ -1,20 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export default class Answer extends React.PureComponent {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    status: PropTypes.oneOf(['unguessed', 'guessedCorrect', 'guessedIncorrect'])
-      .isRequired,
-    onAnswerSelected: PropTypes.func.isRequired,
-  };
+import {IAnswerStatus} from '../types';
 
+interface Props {
+  name: string;
+  value: string;
+  status: IAnswerStatus;
+  onAnswerSelected: (value: string) => void;
+}
+
+export default class Answer extends React.Component<Props> {
   static defaultProps = {
     status: 'unguessed',
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     // Bind events so we can access this inside the event handlers
