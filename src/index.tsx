@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import registerServiceWorker from './registerServiceWorker';
+import * as serviceWorker from './serviceWorker';
 import questionBanks from './question-banks';
 
 import Quiz from './components/Quiz';
@@ -10,4 +10,4 @@ ReactDOM.render(
   <Quiz questionBanks={questionBanks} />,
   document.getElementById('root')
 );
-registerServiceWorker();
+serviceWorker.register();
