@@ -1,6 +1,4 @@
-const {injectBabelPlugin} = require('react-app-rewired');
-
-module.exports = function override(config, env) {
+module.exports = function override(config) {
   // Use Preact instead of React
   // Use preact-compat because we want PropTypes warnings in dev.
   // Using Typescript for typechecking instead of PropTypes might mean we can
@@ -9,14 +7,6 @@ module.exports = function override(config, env) {
     react: 'preact-compat',
     'react-dom': 'preact-compat',
   });
-
-  // Strip prop-types from production build
-  if (env === 'production') {
-    config = injectBabelPlugin(
-      ['babel-plugin-transform-react-remove-prop-types', {removeImport: true}],
-      config
-    );
-  }
 
   return config;
 };
