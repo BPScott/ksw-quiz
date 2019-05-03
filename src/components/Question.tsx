@@ -19,27 +19,15 @@ interface State {
 }
 
 export default class Question extends React.Component<Props, State> {
-  static defaultProps = {
-    isActive: false,
+  state = {
+    guessedAnswer: undefined,
   };
 
-  constructor(props: Props) {
-    super(props);
-
-    // Initial state
-    this.state = {
-      guessedAnswer: undefined,
-    };
-
-    // Bind events so we can access this inside the event handlers
-    this.selectAnswer = this.selectAnswer.bind(this);
-  }
-
-  selectAnswer(answer: string) {
+  selectAnswer = (answer: string) => {
     this.setState((prevState) => ({
       guessedAnswer: answer,
     }));
-  }
+  };
 
   render() {
     const answers = this.props.possibleAnswers.map((answer, i) => {
