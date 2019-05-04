@@ -5,12 +5,12 @@ interface Props {
   meta?: string;
 }
 
-export default function(props: Props) {
+export default function Header({title, meta}: Props) {
   return (
     <h2 className="header">
-      <span>{props.title}</span>
-      {props.meta && ' '}
-      {props.meta && <span className="header__meta">{props.meta}</span>}
+      <span>{title}</span>
+      {meta && ' '}
+      {meta && <span className="header__meta">{meta}</span>}
     </h2>
   );
 }

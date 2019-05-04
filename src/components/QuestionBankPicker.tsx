@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {IQuestion, IQuestionBanks} from '../types';
 
@@ -9,71 +9,59 @@ interface Props {
   onSubmit: (banks: IQuestionBanks) => void;
 }
 
-interface State {
-  [key: string]: boolean;
-}
-
-export default class QuestionBankPicker extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    // Initial state - Everything checked by default
-    this.state = Object.keys(this.props.questionBanks).reduce(
-      (memo, bankName) => {
-        memo[bankName] = true;
-        return memo;
-      },
+export default function QuestionBankPicker({questionBanks, onSubmit}: Props) {
+  // Initial state - Everything checked by default
+  const [questionBankSelections, setQuestionBankSelections] = useState(() =>
+    Object.keys(questionBanks).reduce(
+      (memo, bankName) => Object.assign(memo, {[bankName]: true}),
       {} as {[key: string]: boolean}
-    );
+    )
+  );
 
-    // Bind events so we can access this inside the event handlers
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuestionBankSelections({
+      ...questionBankSelections,
+      [e.target.name]: e.target.checked,
+    });
+  };
 
-  handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({[e.target.name]: e.target.checked});
-  }
-
-  handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const filteredBanks = Object.keys(this.props.questionBanks).reduce(
+    const filteredBanks = Object.keys(questionBanks).reduce(
       (memo, bankName) => {
-        if (this.state[bankName]) {
-          memo[bankName] = this.props.questionBanks[bankName];
+        if (questionBankSelections[bankName]) {
+          memo[bankName] = questionBanks[bankName];
         }
         return memo;
       },
       {} as {[key: string]: IQuestion[]}
     );
 
-    this.props.onSubmit(filteredBanks);
-  }
+    onSubmit(filteredBanks);
+  };
 
-  render() {
-    const banks = Object.keys(this.props.questionBanks).map((bankName, i) => {
-      return (
-        <label key={i} className="question-bank__item">
-          <input
-            type="checkbox"
-            name={bankName}
-            checked={this.state[bankName]}
-            onChange={this.handleInputChange}
-          />
-          {bankName}
-        </label>
-      );
-    });
-
+  const banks = Object.keys(questionBanks).map((bankName, i) => {
     return (
-      <form onSubmit={this.handleSubmit} className="question-bank">
-        <Header title="Choose your question sets:" />
-        {banks}
-        <button type="submit" className="fat-button">
-          Submit
-        </button>
-      </form>
+      <label key={i} className="question-bank__item">
+        <input
+          type="checkbox"
+          name={bankName}
+          checked={questionBankSelections[bankName]}
+          onChange={handleInputChange}
+        />
+        {bankName}
+      </label>
     );
-  }
+  });
+
+  return (
+    <form onSubmit={handleSubmit} className="question-bank">
+      <Header title="Choose your question sets:" />
+      {banks}
+      <button type="submit" className="fat-button">
+        Submit
+      </button>
+    </form>
+  );
 }

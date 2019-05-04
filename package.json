@@ -4,8 +4,7 @@
   "homepage": "https://ksw-quiz.reload.me.uk/",
   "private": true,
   "dependencies": {
-    "preact": "^8.4.2",
-    "preact-compat": "^3.18.4",
+    "preact": "10.0.0-beta.1",
     "react-app-rewired": "^2.1.0",
     "react-scripts": "3.0.0",
     "typescript": "^3.3.3333"

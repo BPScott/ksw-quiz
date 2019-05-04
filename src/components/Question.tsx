@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {IAnswerStatus} from '../types';
 
@@ -14,50 +14,46 @@ interface Props {
   offset?: string;
 }
 
-interface State {
-  guessedAnswer?: string;
-}
+export default function Question({
+  name,
+  query,
+  answer,
+  possibleAnswers,
+  isActive,
+  offset,
+}: Props) {
+  const [guessedAnswer, setGuessedAnswer] = useState<string | undefined>(
+    undefined
+  );
 
-export default class Question extends React.Component<Props, State> {
-  state = {
-    guessedAnswer: undefined,
+  const selectAnswer = (selectedAnswer: string) => {
+    setGuessedAnswer(selectedAnswer);
   };
 
-  selectAnswer = (answer: string) => {
-    this.setState((prevState) => ({
-      guessedAnswer: answer,
-    }));
-  };
-
-  render() {
-    const answers = this.props.possibleAnswers.map((answer, i) => {
-      let answerStatus: IAnswerStatus = 'unguessed';
-      if (answer === this.state.guessedAnswer) {
-        answerStatus =
-          this.state.guessedAnswer === this.props.answer
-            ? 'guessedCorrect'
-            : 'guessedIncorrect';
-      }
-
-      return (
-        <Answer
-          key={i}
-          name={this.props.name}
-          value={answer}
-          status={answerStatus}
-          onAnswerSelected={this.selectAnswer}
-        />
-      );
-    });
-
-    const className =
-      'question' + (this.props.isActive ? ' question--active' : '');
+  const answers = possibleAnswers.map((possibleAnswer, i) => {
+    let answerStatus: IAnswerStatus = 'unguessed';
+    if (possibleAnswer === guessedAnswer) {
+      answerStatus =
+        guessedAnswer === answer ? 'guessedCorrect' : 'guessedIncorrect';
+    }
 
     return (
-      <div className={className}>
-        <Header title={this.props.query} meta={this.props.offset} />
-        {answers}
-      </div>
+      <Answer
+        key={i}
+        name={name}
+        value={possibleAnswer}
+        status={answerStatus}
+        onAnswerSelected={selectAnswer}
+      />
     );
-  }
+  });
+
+  const className = 'question' + (isActive ? ' question--active' : '');
+
+  return (
+    <div className={className}>
+      <Header title={query} meta={offset} />
+      {answers}
+    </div>
+  );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {IQuestionBanks, IFormatedQuestion, IQuestionBank} from '../types';
 
@@ -8,117 +8,103 @@ import QuestionBankPicker from './QuestionBankPicker';
 
 interface Props {
   questionBanks: IQuestionBanks;
-  questionsPerQuiz: number;
-  answersPerQuestion: number;
+  questionsPerQuiz?: number;
+  answersPerQuestion?: number;
 }
 
-interface State {
-  selectedQuestionBanks: IQuestionBank[];
-  selectedQuestions: IFormatedQuestion[];
-  currentQuestionIndex: number;
-  score: number;
-}
+export default function Quiz({
+  questionBanks,
+  questionsPerQuiz = 10,
+  answersPerQuestion = 4,
+}: Props) {
+  const [selectedQuestionBanks, setSelectedQuestionBanks] = useState<
+    IQuestionBank[]
+  >([]);
+  const [selectedQuestions, setSelectedQuestions] = useState<
+    IFormatedQuestion[]
+  >([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  // eslint-disable-next-line
+  const [score, setScore] = useState(0);
 
-export default class Quiz extends React.Component<Props, State> {
-  static defaultProps = {
-    questionsPerQuiz: 10,
-    answersPerQuestion: 4,
+  const setQuestionBanks = (banks: any) => {
+    setSelectedQuestionBanks(banks);
+    setSelectedQuestions(
+      sampleQuestions(
+        formatQuestions(banks, answersPerQuestion),
+        questionsPerQuiz
+      )
+    );
   };
 
-  state = {
-    selectedQuestionBanks: [],
-    selectedQuestions: [],
-    currentQuestionIndex: 0,
-    score: 0,
+  const handleNextQuestion = () => {
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
-  setQuestionBanks = (banks: any) => {
-    this.setState((prevState) => ({
-      selectedQuestionBanks: banks,
-      selectedQuestions: this.sampleQuestions(this.formatQuestions(banks)),
-    }));
+  const handleResetSameQuestions = () => {
+    setCurrentQuestionIndex(0);
+    setScore(0);
   };
 
-  handleNextQuestion = () => {
-    this.setState((prevState) => ({
-      currentQuestionIndex: prevState.currentQuestionIndex + 1,
-    }));
+  const handleResetChangeBanks = () => {
+    setSelectedQuestionBanks([]);
+    setSelectedQuestions([]);
+    setCurrentQuestionIndex(0);
+    setScore(0);
   };
 
-  handleResetSameQuestions = () => {
-    this.setState((prevState) => ({
-      currentQuestionIndex: 0,
-      score: 0,
-    }));
-  };
-
-  handleResetChangeBanks = () => {
-    this.setState((prevState) => ({
-      selectedQuestionBanks: [],
-      selectedQuestions: [],
-      currentQuestionIndex: 0,
-      score: 0,
-    }));
-  };
-
-  render() {
-    const selectedQuestions = this.state.selectedQuestions;
-    const currentQuestionIndex = this.state.currentQuestionIndex;
-
-    // If there are no selected questions then show the bank picker
-    if (!Object.keys(this.state.selectedQuestionBanks).length) {
-      return (
-        <div className="quiz">
-          <QuestionBankPicker
-            questionBanks={this.props.questionBanks}
-            onSubmit={this.setQuestionBanks}
-          />
-        </div>
-      );
-    }
-
-    // If the index is past the number of questions then  you've reached the end.
-    if (currentQuestionIndex >= selectedQuestions.length) {
-      return (
-        <div className="quiz">
-          <Header title="The end" />
-
-          {/* <div>
-            You scored {this.state.score} / {this.props.questionsPerQuiz}
-          </div> */}
-
-          <button
-            className="fat-button"
-            onClick={this.handleResetSameQuestions}
-          >
-            Ask the same questions again
-          </button>
-          <button className="fat-button" onClick={this.handleResetChangeBanks}>
-            Pick a new set of questions
-          </button>
-        </div>
-      );
-    }
-
+  // If there are no selected questions then show the bank picker
+  if (!Object.keys(selectedQuestionBanks).length) {
     return (
       <div className="quiz">
-        {selectedQuestions.map((q, i) => (
-          <Question
-            key={i}
-            name={'question' + (i + 1)}
-            isActive={i === currentQuestionIndex}
-            offset={(i + 1).toString() + ' / ' + selectedQuestions.length}
-            {...q}
-          />
-        ))}
-        <button className="next-button" onClick={this.handleNextQuestion}>
-          Next Question
+        <QuestionBankPicker
+          questionBanks={questionBanks}
+          onSubmit={setQuestionBanks}
+        />
+      </div>
+    );
+  }
+
+  // If the index is past the number of questions then  you've reached the end.
+  if (currentQuestionIndex >= selectedQuestions.length) {
+    return (
+      <div className="quiz">
+        <Header title="The end" />
+
+        {/* <div>
+          You scored {score} / {questionsPerQuiz}
+        </div> */}
+
+        <button className="fat-button" onClick={handleResetSameQuestions}>
+          Ask the same questions again
+        </button>
+        <button className="fat-button" onClick={handleResetChangeBanks}>
+          Pick a new set of questions
         </button>
       </div>
     );
   }
 
-  /**
+  return (
+    <div className="quiz">
+      {selectedQuestions.map((q, i) => (
+        <Question
+          key={i}
+          name={'question' + (i + 1)}
+          isActive={i === currentQuestionIndex}
+          offset={(i + 1).toString() + ' / ' + selectedQuestions.length}
+          {...q}
+        />
+      ))}
+
+      <button className="next-button" onClick={handleNextQuestion}>
+        Next Question
+      </button>
+    </div>
+  );
+}
+
+/**
     Initial question banks look like:
     {
       'First Bank Name': [
@@ -138,52 +124,62 @@ export default class Quiz extends React.Component<Props, State> {
       {query: 'FirstQuestion', answer: 'FirstAnswer', possibleAnswers: ['FirstAnswer', 'SecondAnswer']}
     ]
   */
-  formatQuestions(questionBanks: IQuestionBanks) {
-    let formattedQuestions: IFormatedQuestion[] = [];
+function formatQuestions(
+  questionBanks: IQuestionBanks,
+  answersPerQuestion: number
+) {
+  let formattedQuestions: IFormatedQuestion[] = [];
 
-    // Reworks how a
-    for (let bank in questionBanks) {
-      const currentBank = questionBanks[bank];
+  // Reworks how a
+  for (let bank in questionBanks) {
+    const currentBank = questionBanks[bank];
 
-      const validAnswersForBank = Array.from(
-        new Set(currentBank.map((item) => item.a))
-      );
+    const validAnswersForBank = Array.from(
+      new Set(currentBank.map((item) => item.a))
+    );
 
-      for (const queryTuple of currentBank) {
-        formattedQuestions.push({
-          query: queryTuple.q,
-          answer: queryTuple.a,
-          possibleAnswers: this._buildAnswerArray(
-            queryTuple.a,
-            validAnswersForBank
-          ),
-        });
-      }
+    for (const queryTuple of currentBank) {
+      formattedQuestions.push({
+        query: queryTuple.q,
+        answer: queryTuple.a,
+        possibleAnswers: buildAnswerArray(
+          queryTuple.a,
+          validAnswersForBank,
+          answersPerQuestion
+        ),
+      });
     }
-
-    return formattedQuestions;
   }
 
-  sampleQuestions(questions: IFormatedQuestion[]) {
-    return sampleSize(questions, this.props.questionsPerQuiz);
-  }
+  return formattedQuestions;
+}
 
-  _buildAnswerArray(correctAnswer: string, validAnswers: string[]) {
-    // Grab 3 random wrong answers for this question
-    let possibleAnswers = sampleSize(
-      validAnswers.filter((a) => a !== correctAnswer),
-      this.props.answersPerQuestion - 1
-    );
+function buildAnswerArray(
+  correctAnswer: string,
+  validAnswers: string[],
+  answersPerQuestion: number
+) {
+  // Grab 3 random wrong answers for this question
+  let possibleAnswers = sampleSize(
+    validAnswers.filter((a) => a !== correctAnswer),
+    answersPerQuestion - 1
+  );
 
-    // Insert the right answer at a random point in the array
-    possibleAnswers.splice(
-      randomInclusive(0, possibleAnswers.length - 1),
-      0,
-      correctAnswer
-    );
+  // Insert the right answer at a random point in the array
+  possibleAnswers.splice(
+    randomInclusive(0, possibleAnswers.length - 1),
+    0,
+    correctAnswer
+  );
 
-    return possibleAnswers;
-  }
+  return possibleAnswers;
+}
+
+function sampleQuestions(
+  questions: IFormatedQuestion[],
+  questionsPerQuiz: number
+) {
+  return sampleSize(questions, questionsPerQuiz);
 }
 
 function randomInclusive(min: number, max: number) {
