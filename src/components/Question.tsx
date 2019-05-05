@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 
 import {IAnswerStatus} from '../types';
 
@@ -26,9 +26,9 @@ export default function Question({
     undefined
   );
 
-  const selectAnswer = (selectedAnswer: string) => {
+  const selectAnswer = useCallback((selectedAnswer: string) => {
     setGuessedAnswer(selectedAnswer);
-  };
+  }, []);
 
   const answers = possibleAnswers.map((possibleAnswer, i) => {
     let answerStatus: IAnswerStatus = 'unguessed';

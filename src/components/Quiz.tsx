@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 
 import {IQuestionBanks, IFormatedQuestion, IQuestionBank} from '../types';
 
@@ -27,31 +27,37 @@ export default function Quiz({
   // eslint-disable-next-line
   const [score, setScore] = useState(0);
 
-  const setQuestionBanks = (banks: any) => {
-    setSelectedQuestionBanks(banks);
-    setSelectedQuestions(
-      sampleQuestions(
-        formatQuestions(banks, answersPerQuestion),
-        questionsPerQuiz
-      )
-    );
-  };
+  const setQuestionBanks = useCallback(
+    (banks: any) => {
+      setSelectedQuestionBanks(banks);
+      setSelectedQuestions(
+        sampleQuestions(
+          formatQuestions(banks, answersPerQuestion),
+          questionsPerQuiz
+        )
+      );
+    },
+    [answersPerQuestion, questionsPerQuiz]
+  );
 
-  const handleNextQuestion = () => {
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
-  };
+  const handleNextQuestion = useCallback(
+    () => {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    },
+    [currentQuestionIndex]
+  );
 
-  const handleResetSameQuestions = () => {
+  const handleResetSameQuestions = useCallback(() => {
     setCurrentQuestionIndex(0);
     setScore(0);
-  };
+  }, []);
 
-  const handleResetChangeBanks = () => {
+  const handleResetChangeBanks = useCallback(() => {
     setSelectedQuestionBanks([]);
     setSelectedQuestions([]);
     setCurrentQuestionIndex(0);
     setScore(0);
-  };
+  }, []);
 
   // If there are no selected questions then show the bank picker
   if (!Object.keys(selectedQuestionBanks).length) {

@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 
-import {IQuestion, IQuestionBanks} from '../types';
+import {IQuestionBanks} from '../types';
 
 import Header from './Header';
+
+type IQuestionBankSelections = {[key: string]: boolean};
 
 interface Props {
   questionBanks: IQuestionBanks;
@@ -14,32 +16,38 @@ export default function QuestionBankPicker({questionBanks, onSubmit}: Props) {
   const [questionBankSelections, setQuestionBankSelections] = useState(() =>
     Object.keys(questionBanks).reduce(
       (memo, bankName) => Object.assign(memo, {[bankName]: true}),
-      {} as {[key: string]: boolean}
+      {} as IQuestionBankSelections
     )
   );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuestionBankSelections({
-      ...questionBankSelections,
-      [e.target.name]: e.target.checked,
-    });
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setQuestionBankSelections({
+        ...questionBankSelections,
+        [e.target.name]: e.target.checked,
+      });
+    },
+    [questionBankSelections]
+  );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    const filteredBanks = Object.keys(questionBanks).reduce(
-      (memo, bankName) => {
-        if (questionBankSelections[bankName]) {
-          memo[bankName] = questionBanks[bankName];
-        }
-        return memo;
-      },
-      {} as {[key: string]: IQuestion[]}
-    );
+      const filteredBanks = Object.keys(questionBanks).reduce(
+        (memo, bankName) => {
+          if (questionBankSelections[bankName]) {
+            memo[bankName] = questionBanks[bankName];
+          }
+          return memo;
+        },
+        {} as IQuestionBanks
+      );
 
-    onSubmit(filteredBanks);
-  };
+      onSubmit(filteredBanks);
+    },
+    [onSubmit, questionBankSelections, questionBanks]
+  );
 
   const banks = Object.keys(questionBanks).map((bankName, i) => {
     return (

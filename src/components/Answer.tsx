@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 
 import {IAnswerStatus} from '../types';
 
@@ -9,26 +9,29 @@ interface Props {
   onAnswerSelected: (value: string) => void;
 }
 
-export default function Answer(props: Props) {
-  function handleAnswerSelected() {
-    props.onAnswerSelected(props.value);
-  }
+export default function Answer({name, value, status, onAnswerSelected}: Props) {
+  const handleAnswerSelected = useCallback(
+    () => {
+      onAnswerSelected(value);
+    },
+    [onAnswerSelected, value]
+  );
 
   const statusClass = {
     unguessed: '',
     guessedCorrect: ' answer--correct',
     guessedIncorrect: ' answer--incorrect',
-  }[props.status];
+  }[status];
 
   return (
     <label className={'answer' + statusClass}>
       <input
         type="radio"
-        name={props.name}
-        value={props.value}
+        name={name}
+        value={value}
         onClick={handleAnswerSelected}
       />
-      <span className="answer__text">{props.value}</span>
+      <span className="answer__text">{value}</span>
     </label>
   );
 }
