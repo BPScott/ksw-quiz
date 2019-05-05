@@ -29,7 +29,12 @@
     "prettier": "^1.14.2"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "settings": {
+      "react": {
+       "version": "16.8"
+      }
+    }
   },
   "prettier": {
     "arrowParens": "always",
