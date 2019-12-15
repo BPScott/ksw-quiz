@@ -40,12 +40,9 @@ export default function Quiz({
     [answersPerQuestion, questionsPerQuiz]
   );
 
-  const handleNextQuestion = useCallback(
-    () => {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    },
-    [currentQuestionIndex]
-  );
+  const handleNextQuestion = useCallback(() => {
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
+  }, [currentQuestionIndex]);
 
   const handleResetSameQuestions = useCallback(() => {
     setCurrentQuestionIndex(0);
@@ -194,8 +191,8 @@ function randomInclusive(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function sampleSize(items: any[], size: number) {
-  const results = new Set();
+function sampleSize<T>(items: T[], size: number) {
+  const results = new Set<T>();
 
   while (results.size < size) {
     results.add(items[randomInclusive(0, items.length - 1)]);

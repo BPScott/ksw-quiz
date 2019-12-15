@@ -10,12 +10,9 @@ interface Props {
 }
 
 export default function Answer({name, value, status, onAnswerSelected}: Props) {
-  const handleAnswerSelected = useCallback(
-    () => {
-      onAnswerSelected(value);
-    },
-    [onAnswerSelected, value]
-  );
+  const handleAnswerSelected = useCallback(() => {
+    onAnswerSelected(value);
+  }, [onAnswerSelected, value]);
 
   const statusClass = {
     unguessed: '',

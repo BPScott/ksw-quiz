@@ -4,10 +4,10 @@
   "homepage": "https://ksw-quiz.reload.me.uk/",
   "private": true,
   "dependencies": {
-    "preact": "10.0.0-beta.1",
-    "react-app-rewired": "^2.1.0",
-    "react-scripts": "3.0.0",
-    "typescript": "^3.3.3333"
+    "preact": "^10.1.0",
+    "react-app-rewired": "^2.1.5",
+    "react-scripts": "3.3.0",
+    "typescript": "^3.7.3"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -18,21 +18,23 @@
     "type-check": "tsc",
     "predeploy": "npm run clean && npm run build",
     "deploy": "gh-pages -d build",
-    "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css}'"
+    "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,md}'"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.9",
+    "@types/jest": "^24.0.23",
     "@types/node": "^11.10.4",
-    "@types/react": "^16.8.6",
-    "@types/react-dom": "^16.8.2",
-    "gh-pages": "^1.2.0",
-    "prettier": "^1.14.2"
+    "@types/react": "^16.9.16",
+    "@types/react-dom": "^16.9.4",
+    "gh-pages": "^2.1.1",
+    "prettier": "^1.19.1"
   },
   "eslintConfig": {
-    "extends": "react-app",
+    "extends": [
+      "react-app"
+    ],
     "settings": {
       "react": {
-       "version": "16.8"
+        "version": "16.8"
       }
     }
   },
